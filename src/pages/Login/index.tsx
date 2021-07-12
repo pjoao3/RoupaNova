@@ -1,13 +1,25 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Text, Image, View, TextInput, TouchableOpacity } from "react-native";
+import UserDTO from "../../DTOs/UserDTO";
+import LoginImage from "../../../assets/logo.png";
+import { Appbar } from "react-native-paper";
+import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 export default function Login() {
   const navigation = useNavigation();
-  const [usuario, setUsuario] = useState<User>({ login: "", senha: "" });
   return (
     <View style={{ flex: 1, flexDirection: "column" }}>
-      <View style={{ height: 35, backgroundColor: "#8c52ff" }} />
+      <Appbar
+        style={{
+          paddingTop: getStatusBarHeight(),
+          height: getStatusBarHeight() + 70,
+          backgroundColor: "#8c52ff",
+        }}
+      >
+        <Appbar.BackAction onPress={() => navigation.goBack()} />
+        <Appbar.Content title="Login" />
+      </Appbar>
       <View
         style={{
           height: 300,
@@ -17,7 +29,7 @@ export default function Login() {
         }}
       >
         <Image
-          source={require("./assets/logo.png")}
+          source={LoginImage}
           style={{ width: 300, height: 300, alignContent: "center" }}
         ></Image>
       </View>
@@ -47,10 +59,6 @@ export default function Login() {
                 borderWidth: 1,
                 padding: 5,
               }}
-              defaultValue=""
-              onChangeText={(text) => {
-                usuario.login = text;
-              }}
             ></TextInput>
           </View>
         </View>
@@ -59,6 +67,7 @@ export default function Login() {
             <TextInput
               placeholder="Senha"
               placeholderTextColor="#8c52ff"
+              secureTextEntry={true}
               style={{
                 textAlign: "center",
                 marginTop: 10,
@@ -69,7 +78,6 @@ export default function Login() {
                 borderWidth: 1,
                 padding: 5,
               }}
-              defaultValue=""
             />
           </View>
         </View>
@@ -84,7 +92,7 @@ export default function Login() {
               alignItems: "center",
             }}
             onPress={() => {
-              navigation.navigate("Home", usuario);
+              navigation.navigate("Produtos");
             }}
           >
             <Text style={{ color: "white", marginVertical: 10 }}>Entrar</Text>
@@ -96,7 +104,7 @@ export default function Login() {
               alignItems: "center",
             }}
             onPress={() => {
-              navigation.navigate("Home", usuario);
+              navigation.navigate("Redefinir");
             }}
           >
             <Text style={{ color: "white", marginVertical: 10 }}>
