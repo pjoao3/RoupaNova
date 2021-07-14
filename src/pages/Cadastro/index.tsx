@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Form } from "@unform/mobile";
-import { FormHandles } from '@unform/core';
+import { FormHandles } from "@unform/core";
 import { StyleSheet, ScrollView, View } from "react-native";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { Appbar, Button } from "react-native-paper";
+import * as Yup from "yup";
 import Input from "../../components/Input";
-import * as Yup from 'yup';
 import getValidationErrors from "../../tools/getValidationErrors";
 import UserDTO from "../../DTOs/UserDTO";
 
@@ -22,10 +22,17 @@ export default function Cadastro() {
     try {
       const schema = Yup.object().shape({
         nome: Yup.string().required("Nome obrigatório"),
-        email: Yup.string().email("Email inválido").required("Email obrigatório"),
+        email: Yup.string()
+          .email("Email inválido")
+          .required("Email obrigatório"),
         senha: Yup.string().min(8, "Senha minima de 8 caracteres"),
-        confirmarsenha: Yup.string().required("Confirmação de senha obrigatória").oneOf([Yup.ref('senha'), null], "A senha precisa ser igual nos dois campos"),
-        telefone: Yup.string().required("Telefone obrigatório")
+        confirmarsenha: Yup.string()
+          .required("Confirmação de senha obrigatória")
+          .oneOf(
+            [Yup.ref("senha"), null],
+            "A senha precisa ser igual nos dois campos"
+          ),
+        telefone: Yup.string().required("Telefone obrigatório"),
       });
 
       await schema.validate(data, {
@@ -57,34 +64,29 @@ export default function Cadastro() {
         <Form ref={formRef} onSubmit={handleSubmit}>
           <Input
             name="nome"
-            style={styles.input}
             placeholder="Nome"
             placeholderTextColor="#8c52ff"
           />
           <Input
             name="email"
-            style={styles.input}
             placeholder="Email"
             placeholderTextColor="#8c52ff"
             keyboardType="email-address"
           />
           <Input
             name="senha"
-            style={styles.input}
             placeholder="Senha"
             placeholderTextColor="#8c52ff"
-            secureTextEntry={true}
+            secureTextEntry
           />
           <Input
             name="confirmarsenha"
-            style={styles.input}
             placeholder="Confirmar Senha"
             placeholderTextColor="#8c52ff"
-            secureTextEntry={true}
+            secureTextEntry
           />
           <Input
             name="telefone"
-            style={styles.input}
             placeholder="Número de Telefone"
             placeholderTextColor="#8c52ff"
             keyboardType="phone-pad"
@@ -106,16 +108,3 @@ export default function Cadastro() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  input : {
-    borderRadius: 5,
-    marginTop: 15,
-    borderColor: "#8c52ff",
-    borderWidth: 1,
-    paddingVertical: 8,
-    fontSize: 18,
-    paddingHorizontal: 5,
-    marginHorizontal: 15,
-  }
-});

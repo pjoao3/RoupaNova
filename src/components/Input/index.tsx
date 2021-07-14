@@ -3,7 +3,6 @@ import { TextInput, TextInputProps, Text } from "react-native";
 import { useField } from "@unform/core";
 import { View } from "react-native";
 
-
 interface InputProps extends TextInputProps {
   name: string;
   label?: string;
@@ -36,7 +35,7 @@ const Input: React.FC<InputProps> = ({
         inputValueRef.current.value = valueField;
       },
       clearValue() {
-        inputValueRef.current.value = '';
+        inputValueRef.current.value = "";
       },
     });
   }, [fieldName, registerField]);
@@ -55,12 +54,21 @@ const Input: React.FC<InputProps> = ({
         onChangeText={handleChangeText}
         defaultValue={defaultValue}
         {...rest}
-        style={{...rest.style, borderColor: error? "red" : rest.style.borderColor}}
+        style={{
+          borderRadius: 5,
+          marginTop: 15,
+          borderWidth: 1,
+          paddingVertical: 8,
+          fontSize: 18,
+          paddingHorizontal: 5,
+          marginHorizontal: 15,
+          borderColor: error ? "red" : "#8c52ff",
+        }}
       />
       {error && (
-      <View style={{paddingHorizontal: 15}}>
-        <Text style={{color: "red"}}>{error}</Text>
-      </View>
+        <View style={{ paddingHorizontal: 15 }}>
+          <Text style={{ color: "red" }}>{error}</Text>
+        </View>
       )}
     </>
   );

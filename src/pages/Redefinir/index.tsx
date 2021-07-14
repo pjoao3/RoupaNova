@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { Form } from "@unform/mobile";
-import { FormHandles } from '@unform/core';
-import { StyleSheet, ScrollView, View } from "react-native";
+import { FormHandles } from "@unform/core";
+import { ScrollView, View } from "react-native";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import { Appbar, Button } from "react-native-paper";
+import * as Yup from "yup";
 import Input from "../../components/Input";
-import * as Yup from 'yup';
 import getValidationErrors from "../../tools/getValidationErrors";
 import UserDTO from "../../DTOs/UserDTO";
 
@@ -21,7 +21,9 @@ export default function Redefinir() {
 
     try {
       const schema = Yup.object().shape({
-        email: Yup.string().email("Email inválido").required("Email obrigatório"),
+        email: Yup.string()
+          .email("Email inválido")
+          .required("Email obrigatório"),
       });
 
       await schema.validate(data, {
@@ -51,10 +53,8 @@ export default function Redefinir() {
           <Appbar.Content title="Redefinir Senha" />
         </Appbar>
         <Form ref={formRef} onSubmit={handleSubmit}>
-
           <Input
             name="email"
-            style={styles.input}
             placeholder="Email"
             placeholderTextColor="#8c52ff"
             keyboardType="email-address"
@@ -76,16 +76,3 @@ export default function Redefinir() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  input : {
-    borderRadius: 5,
-    marginTop: 15,
-    borderColor: "#8c52ff",
-    borderWidth: 1,
-    paddingVertical: 8,
-    fontSize: 18,
-    paddingHorizontal: 5,
-    marginHorizontal: 15,
-  }
-});
